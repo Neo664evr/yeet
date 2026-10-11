@@ -1,4 +1,4 @@
-// endtask-win10: Windows 11-style "End task" for Windows 10 taskbar buttons.
+// Yeet: Windows 11-style "End task" for Windows 10 taskbar buttons.
 #![windows_subsystem = "windows"]
 
 use std::ffi::c_void;
@@ -59,7 +59,7 @@ const ID_END_TASK: u32 = 2001;
 const MAX_BUTTON_GAP: i32 = 6;
 
 const RUN_KEY: &str = r"HKCU\Software\Microsoft\Windows\CurrentVersion\Run";
-const RUN_VALUE: &str = "endtask-win10";
+const RUN_VALUE: &str = "Yeet";
 const CREATE_NO_WINDOW: u32 = 0x0800_0000;
 
 const PROTECTED: [&str; 14] = [
@@ -470,7 +470,7 @@ unsafe fn tray_data(hwnd: HWND) -> NOTIFYICONDATAW {
         hIcon: LoadIconW(HINSTANCE::default(), IDI_APPLICATION).unwrap_or_default(),
         ..Default::default()
     };
-    let tip = to_wide("endtask-win10");
+    let tip = to_wide("Yeet");
     let count = tip.len().min(nid.szTip.len());
     nid.szTip[..count].copy_from_slice(&tip[..count]);
     nid
@@ -566,7 +566,7 @@ fn main() {
         let _ = CoInitializeEx(None, COINIT_APARTMENTTHREADED);
 
         // Single instance: if the named mutex already exists, another copy is running.
-        let _mutex = match CreateMutexW(None, true, w!("endtask-win10-single-instance")) {
+        let _mutex = match CreateMutexW(None, true, w!("yeet-single-instance")) {
             Ok(handle) => handle,
             Err(_) => return,
         };
@@ -576,7 +576,7 @@ fn main() {
 
         let module = GetModuleHandleW(PCWSTR::null()).unwrap_or_default();
         let instance = HINSTANCE(module.0);
-        let class_name = w!("endtask-win10-hidden");
+        let class_name = w!("yeet-hidden");
 
         let class = WNDCLASSW {
             lpfnWndProc: Some(wnd_proc),
@@ -590,7 +590,7 @@ fn main() {
         let hwnd = match CreateWindowExW(
             WINDOW_EX_STYLE(0),
             class_name,
-            w!("endtask-win10"),
+            w!("Yeet"),
             WINDOW_STYLE(0),
             0,
             0,

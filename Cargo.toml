@@ -1,10 +1,10 @@
 [package]
-name = "endtask-win10"
+name = "yeet"
 version = "0.1.0"
 edition = "2021"
 description = "Windows 11-style End task for Windows 10 taskbar buttons"
 license = "MIT"
-repository = "https://github.com/Neo664evr/endtask-win10"
+repository = "https://github.com/Neo664evr/yeet"
 
 [dependencies]
 windows = { version = "0.58", features = [

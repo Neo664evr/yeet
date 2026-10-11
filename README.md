@@ -1,10 +1,10 @@
 <div align="center">
 
-# endtask-win10
+# 🫳 Yeet
 
-**The Windows 11 taskbar "End task" button, brought to Windows 10.**
+**Frozen app? Yeet it.**
 
-Shift + right-click any taskbar button → **End task** → the app is gone.
+The Windows 11 taskbar "End task" button, brought to Windows 10.<br>Shift + right-click any taskbar button → **End task** → gone.
 
 ![Platform](https://img.shields.io/badge/platform-Windows%2010-0078D6?logo=windows&logoColor=white)
 ![Language](https://img.shields.io/badge/made%20with-Rust-B7410E?logo=rust&logoColor=white)
@@ -18,7 +18,7 @@ Shift + right-click any taskbar button → **End task** → the app is gone.
 ## What it does
 
 Windows 11 lets you kill a frozen app straight from the taskbar. Windows 10 makes you open Task Manager.
-`endtask-win10` is a tiny background tool that adds that missing option:
+Yeet is a tiny background tool that adds that missing option:
 
 1. Hold **Shift** and **right-click** an app's taskbar button.
 2. Pick **End task (app.exe)**.
@@ -37,7 +37,7 @@ No window, no settings screen, no install. It lives in the system tray.
 
 ## What can and can't be ended
 
-`endtask-win10` only offers End task for normal apps that have a window on the taskbar.
+Yeet only offers End task for normal apps that have a window on the taskbar.
 If an app can't be ended, **no menu appears at all**.
 
 ### ✅ Can be ended
@@ -73,7 +73,7 @@ These are core parts of Windows. Ending them can crash the desktop, log you out 
 | `runtimebroker.exe` | App permission broker |
 | `taskhostw.exe` | Task host for background tasks |
 
-Also never ended: the System Idle Process (PID 0), System (PID 4), and `endtask-win10` itself.
+Also never ended: the System Idle Process (PID 0), System (PID 4), and Yeet itself.
 
 ### 🚫 No menu shown
 
@@ -82,11 +82,11 @@ Also never ended: the System Idle Process (PID 0), System (PID 4), and `endtask-
 - Apps with no visible window
 - Buttons whose process Windows won't let us inspect
 
-> Apps running as administrator can only be force-closed if `endtask-win10` is also running as administrator.
+> Apps running as administrator can only be force-closed if Yeet is also running as administrator.
 
 ## Install
 
-1. Download `endtask-win10.exe` from [Releases](../../releases), or build it yourself (below).
+1. Download `yeet.exe` from [Releases](../../releases), or build it yourself (below).
 2. Put it anywhere you like and run it. An icon appears in the system tray.
 3. Optional: right-click the tray icon → **Start with Windows**.
 
@@ -104,12 +104,12 @@ Also never ended: the System Idle Process (PID 0), System (PID 4), and `endtask-
 Requires [Rust](https://rustup.rs) (stable, MSVC toolchain).
 
 ```powershell
-git clone https://github.com/Neo664evr/endtask-win10.git
-cd endtask-win10
+git clone https://github.com/Neo664evr/yeet.git
+cd yeet
 cargo build --release
 ```
 
-The exe is written to `target\release\endtask-win10.exe`.
+The exe is written to `target\release\yeet.exe`.
 
 ## How it works
 
