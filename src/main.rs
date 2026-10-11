@@ -30,10 +30,10 @@ use windows::Win32::UI::WindowsAndMessaging::{
     AppendMenuW, CallNextHookEx, CreatePopupMenu, CreateWindowExW, DefWindowProcW, DestroyMenu,
     DestroyWindow, DispatchMessageW, EnumChildWindows, EnumWindows, GetAncestor, GetClassNameW,
     GetCursorPos, GetMessageW, GetWindow, GetWindowLongPtrW, GetWindowRect, GetWindowTextW,
-    GetWindowThreadProcessId, IsWindowVisible, LoadIconW, PostMessageW, PostQuitMessage,
+    GetSystemMetrics, GetWindowThreadProcessId, IsWindowVisible, LoadIconW, LoadImageW, PostMessageW, PostQuitMessage,
     RegisterClassW, RegisterWindowMessageW, SetForegroundWindow, SetWindowPos, SetWindowsHookExW,
     TrackPopupMenu, TrackPopupMenuEx, TranslateMessage, UnhookWindowsHookEx, WindowFromPoint,
-    GA_ROOT, GWL_EXSTYLE, GW_OWNER, HHOOK, HWND_TOPMOST, IDI_APPLICATION, MF_CHECKED,
+    GA_ROOT, GWL_EXSTYLE, GW_OWNER, HHOOK, HICON, HWND_TOPMOST, IDI_APPLICATION, IMAGE_ICON, LR_SHARED, SM_CXSMICON, SM_CYSMICON, MF_CHECKED,
     MF_SEPARATOR, MF_STRING, MF_UNCHECKED, MSG, MSGF_MENU, MSLLHOOKSTRUCT, SWP_NOACTIVATE,
     SWP_NOMOVE, SWP_NOSIZE, TPMPARAMS, TPM_BOTTOMALIGN, TPM_HORIZONTAL, TPM_LEFTALIGN,
     TPM_RETURNCMD, TPM_RIGHTALIGN, TPM_RIGHTBUTTON, TPM_TOPALIGN, TPM_VERTICAL, WH_MOUSE_LL,
@@ -460,6 +460,17 @@ unsafe fn uninstall(hwnd: HWND) {
     let _ = DestroyWindow(hwnd);
 }
 
+// The Yeet icon embedded in the exe (resource 1, see yeet.rc) at the small-icon size the
+// tray uses, falling back to the stock application icon.
+unsafe fn app_icon() -> HICON {
+    let module = GetModuleHandleW(PCWSTR::null()).unwrap_or_default();
+    let size = (GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON));
+    match LoadImageW(HINSTANCE(module.0), PCWSTR(1 as *const u16), IMAGE_ICON, size.0, size.1, LR_SHARED) {
+        Ok(handle) => HICON(handle.0),
+        Err(_) => LoadIconW(HINSTANCE::default(), IDI_APPLICATION).unwrap_or_default(),
+    }
+}
+
 unsafe fn tray_data(hwnd: HWND) -> NOTIFYICONDATAW {
     let mut nid = NOTIFYICONDATAW {
         cbSize: size_of::<NOTIFYICONDATAW>() as u32,
@@ -467,7 +478,7 @@ unsafe fn tray_data(hwnd: HWND) -> NOTIFYICONDATAW {
         uID: TRAY_ID,
         uFlags: NIF_ICON | NIF_MESSAGE | NIF_TIP,
         uCallbackMessage: WM_TRAY,
-        hIcon: LoadIconW(HINSTANCE::default(), IDI_APPLICATION).unwrap_or_default(),
+        hIcon: app_icon(),
         ..Default::default()
     };
     let tip = to_wide("Yeet");

@@ -1,6 +1,10 @@
 <div align="center">
 
-# 🫳 Yeet
+<img src="assets/banner.png" alt="Yeet: Frozen app? Yeet it." width="100%">
+
+<img src="assets/icon.png" alt="Yeet icon" width="96">
+
+# Yeet
 
 **Frozen app? Yeet it.**
 
